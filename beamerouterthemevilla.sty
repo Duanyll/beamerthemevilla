@@ -1,0 +1,114 @@
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\tcbuselibrary{skins}
+
+\graphicspath{{./imgs/}}
+
+\newif\ifbeamer@villa@nosection
+\beamer@villa@nosectionfalse
+
+\DeclareOptionBeamer{nosection}{\beamer@villa@nosectiontrue}
+\ProcessOptionsBeamer
+
+\setbeamercolor{villa headline number}{use=structure,bg=structure.fg}
+\setbeamercolor{villa footline}{use=structure,fg=white,bg=structure.fg}
+\setbeamercolor{villa title header}{parent=structure}
+
+\newtcbox{\villasectionheadnumberbox}[1][orange]{
+    enhanced,on line,colback=#1,colupper=white,colframe=white,arc=13pt,boxrule=1pt,
+    before upper={\rule[-3pt]{0pt}{10pt}},
+    boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt,
+    fuzzy halo=2pt with lightgray
+}
+\newtcbox{\villasectionheadbox}{
+    on line,colback=white,colframe=gray,arc=13pt,boxrule=0.2pt,
+    before upper={\rule[-3pt]{0pt}{10pt}},
+    boxsep=0pt,left=6pt,right=6pt,top=5pt,bottom=5pt}
+
+\setbeamertemplate{frametitle}{
+    \usebeamercolor{villa headline number}
+    \nointerlineskip
+    \vskip4pt
+    \hspace{-\beamer@leftmargin}
+    \hbox{%
+        \hskip-20pt
+        \ifbeamer@villa@nosection
+            \villasectionheadnumberbox[bg]{\hskip15pt\strut\insertframenumber\strut}
+            \villasectionheadbox{\strut\insertframetitle\strut}
+            \usebeamercolor{frametitle}
+            \usebeamerfont{frametitle}
+            \insertframesubtitle
+        \else
+            \ifx\insertsection\empty
+                \villasectionheadnumberbox[bg]{\hskip15pt\strut\phantom{\textbf{0}}\strut}
+            \else
+                \villasectionheadnumberbox[bg]{\hskip15pt\strut\textbf{\thesection}\strut}
+                \villasectionheadbox{\strut\insertsectionhead\strut}
+            \fi
+            \vtop{
+                \hbox{\strut\insertframetitle\strut}
+                \vskip-8pt
+                \hbox{\usebeamerfont{framesubtitle}\insertframesubtitle}
+            }
+            \hfill
+        \fi
+    }
+}
+
+\setbeamertemplate{footline logo}{\includegraphics[height=15pt]{pkuvilladimmed.pdf}}
+\setbeamertemplate{title logo}{\includegraphics[height=25pt]{pkuvilla.pdf}}
+
+\defbeamertemplate*{footline}{villa theme}{
+    \begin{beamercolorbox}[wd=\paperwidth,ht=18pt,dp=1ex]{villa footline}%
+        \hskip2pt\usebeamertemplate{footline logo}
+        \vbox to 15pt{
+            \vfill
+            \hbox to 0.75\paperwidth{
+                \hfill
+                \insertshorttitle
+                \hfill
+                \insertshortdate{}
+                \hfill
+                \insertshortauthor
+                \hfill% 
+                \insertframenumber\,/\,\inserttotalframenumber
+                \hskip2pt
+            }
+            \vfill
+        }
+    \end{beamercolorbox}
+    \vskip0pt%
+}
+
+\defbeamertemplate*{title page}{customized}[1][]{
+    \vbox to \paperheight{% 
+        \usebeamercolor{villa title header}
+        \begin{adjustbox}{width=\paperwidth,center}
+            \begin{tikzpicture}[y=1mm, x=1mm, inner sep=0pt, outer sep=0pt]
+                \begin{scope}
+                    \path[fill=fg,even odd rule] (0.0, 12.1973) -- (116.4167, 12.1973) -- (116.4167, 9.0034) -- (112.7604, 7.799).. controls (96.8539, 2.8332) and (78.1809, -0.0265) .. (58.2083, -0.0265).. controls (38.2357, -0.0265) and (19.5629, 2.8332) .. (3.6564, 7.799) -- (0.0, 9.0034) -- cycle;
+                \end{scope}
+            \end{tikzpicture}
+        \end{adjustbox}
+        \vfill
+        \centering
+        \usebeamercolor[fg]{structure}\usebeamerfont{title}\inserttitle\par
+        \ifx\insertsubtitle\empty
+        \else
+            \vskip0.25em
+            \usebeamercolor[fg]{structure}\usebeamerfont{subtitle}\insertsubtitle\par
+        \fi
+        \vfill
+        \usebeamercolor[fg]{normal text}\usebeamerfont{author}\insertauthor\par
+        \ifx\insertinstitute\empty
+        \else
+            \usebeamercolor[fg]{normal text}\usebeamerfont{institute}\insertinstitute\par
+        \fi
+        \usebeamercolor[fg]{normal text}\usebeamerfont{date}\insertdate\par
+        \vskip0.5em
+        \begin{center}
+            \usebeamertemplate{title logo}
+        \end{center}
+        \vskip2pt
+    }
+}
