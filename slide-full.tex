@@ -1,0 +1,381 @@
+% \documentclass
+\documentclass[aspectratio=169]{ctexbeamer}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{siunitx} % Required for alignment
+\sisetup{
+  round-mode          = places, % Rounds numbers
+  round-precision     = 2, % to 2 places
+}
+
+\mode<presentation>
+{
+  \usetheme{villa}
+}
+
+% 中括号里的简写会在每页底部显示
+\title[Villa Beamer Theme]{A Beamer Theme for Peking University Visual-Information Interlligent Learning Lab}
+\subtitle{这里是副标题} % 可选
+\author[Duanyll]{报告人：Duanyll}
+\date[\today]{\today}
+
+% 包含下面的指令，在每个 Subsetsion 前显示目录.
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+% 包含下面的指令，在每个 Section 前显示目录.
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+% 如果不需要显示 Section 的目录，还要使用下面的指令覆盖 beamer 的默认设置
+% \AtBeginSection[] {}
+
+% 如果不需要右下角的按钮，使用下面的指令
+% 在不能全屏放映 PDF 的环境中（比如在浏览器中），这个按钮会很有用
+% \setbeamertemplate{navigation symbols}{}
+
+\begin{document}
+
+\begin{frame}[plain,noframenumbering]
+  \titlepage
+\end{frame}
+
+\begin{frame}
+  \tableofcontents
+\end{frame}
+
+\section{外部样式}
+
+\begin{frame}{幻灯片的标题}
+  \begin{itemize}
+    \item 左上角数字为当前 Section 编号
+    \item 左上角圈内为当前 Section 的标题
+    \item 幻灯片标题显示在圈的右侧
+    \item 不显示当前 Subsection 的标题
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{还可以设置副标题}{我是副标题}
+  副标题显示在标题下方。
+
+  注意标题长度不能超过页面宽度，否则会导致标题栏排版错乱。
+\end{frame}
+
+\section{内部样式}
+
+\subsection{基本样式}
+
+\begin{frame}{文字样式}
+  \begin{itemize}
+    \item 这是默认的字体。(Windows 为微软雅黑，Linux 为 Fandol 黑体)
+    \item 这是 \textbf{粗体}。
+    \item 这是 \texttt{等宽字体（仿宋）}。
+    \item 这是 \underline{下划线}。
+    \item 这是 \alert{高亮文本}。
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{列表样式}
+  \begin{columns}
+    \column{0.33\textwidth}
+    Itemize 环境：
+    \begin{itemize}
+      \item 第一项
+      \item 第二项
+      \begin{itemize}
+        \item 嵌套第一项
+        \item 嵌套第二项
+      \end{itemize}
+      \item 第三项
+    \end{itemize}
+
+    \column{0.33\textwidth}
+    Enumerate 环境：
+    \begin{enumerate}
+      \item 第一项
+      \item 第二项
+      \begin{enumerate}
+        \item 嵌套第一项
+        \item 嵌套第二项
+      \end{enumerate}
+      \item 第三项
+    \end{enumerate}
+
+    \column{0.33\textwidth}
+    Description 环境：
+    \begin{description}
+      \item[第一项] 我是描述。
+      \item[第二项] 也是描述。
+      \item[第三项] 描述。
+      \item[] 没有标签。
+    \end{description}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{块环境}
+  这一页展示了三种块环境的样式。
+  \begin{columns}[T,onlytextwidth]
+    \column{0.5\textwidth}
+      \begin{block}{Default}
+        Block content.
+      \end{block}
+
+      \begin{alertblock}{Alert}
+        Block content.
+      \end{alertblock}
+
+      \begin{exampleblock}{Example}
+        Block content.
+      \end{exampleblock}
+
+    \column{0.5\textwidth}
+
+      \begin{block}{Default}
+        Block content.
+      \end{block}
+
+      \begin{alertblock}{Alert}
+        Block content.
+      \end{alertblock}
+
+      \begin{exampleblock}{Example}
+        Block content.
+      \end{exampleblock}
+
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{代码环境}
+  使用 \texttt{lstlisting} 插入一些 Python 代码。记得给这页加上 \texttt{fragile} 选项。
+
+  \begin{lstlisting}[language=Python,basicstyle=\small]
+  def quicksort(arr):
+      if len(arr) <= 1:
+          return arr
+      pivot = arr[len(arr) // 2]
+      left = [x for x in arr if x < pivot]
+      middle = [x for x in arr if x == pivot]
+      right = [x for x in arr if x > pivot]
+      return quicksort(left) + middle + quicksort(right)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}{公式}
+  \begin{block}{无编号公式}
+    \begin{equation*}
+        J(\theta) = \mathbb{E}_{\pi_\theta}[G_t] = \sum_{s\in\mathcal{S}} d^\pi (s)V^\pi(s)=\sum_{s\in\mathcal{S}} d^\pi(s)\sum_{a\in\mathcal{A}}\pi_\theta(a|s)Q^\pi(s,a)
+    \end{equation*}
+  \end{block}
+  \begin{block}{多行多列公式\footnotemark[1]}
+      % 使用 & 分隔
+      \begin{align}
+          Q_\mathrm{target}&=r+\gamma Q^\pi(s^\prime, \pi_\theta(s^\prime)+\epsilon)\\
+          \epsilon&\sim\mathrm{clip}(\mathcal{N}(0, \sigma), -c, c)\nonumber
+      \end{align}
+  \end{block}
+  \footnotetext[1]{如果公式中有文字出现，请用 $\backslash$mathrm\{\} 或者 $\backslash$text\{\} 包含，不然就会变成 $clip$，在公式里看起来比 $\mathrm{clip}$ 丑非常多。}
+\end{frame}
+
+\subsection{图表和分栏}
+
+\begin{frame}{插入 PDF 图片}
+  首选使用 PDF 格式的矢量图，以保证图片质量。
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{imgs/pkuvilla.pdf}
+    \caption{这个 Logo 是从 PowerPoint 中导出的，不完全是矢量图。}
+  \end{figure}
+  可以使用 Inkscape 等工具将 SVG 格式的矢量图转换为 PDF 格式。
+\end{frame}
+
+\begin{frame}{TikZ 绘图和分栏}
+  \begin{columns}[T]
+    \column{0.4\textwidth}
+    \begin{enumerate}
+      \item 这一页使用了 \texttt{columns} 环境，给 \texttt{column} 环境加上 \texttt{T} 选项可以使两栏顶部对齐。
+      \item 这是一个有序列表。
+      \item 下面是用 \texttt{tikz} 绘制的函数图像。
+    \end{enumerate}
+    \column{0.6\textwidth}
+    \begin{figure}
+      \newcounter{density}
+      \setcounter{density}{20}
+      \resizebox{0.6\columnwidth}{!}{
+        \begin{tikzpicture}
+          \def\couleur{alerted text.fg}
+          \path[coordinate] (0,0)  coordinate(A)
+                      ++( 90:5cm) coordinate(B)
+                      ++(0:5cm) coordinate(C)
+                      ++(-90:5cm) coordinate(D);
+          \draw[fill=\couleur!\thedensity] (A) -- (B) -- (C) --(D) -- cycle;
+          \foreach \x in {1,...,40}{%
+              \pgfmathsetcounter{density}{\thedensity+20}
+              \setcounter{density}{\thedensity}
+              \path[coordinate] coordinate(X) at (A){};
+              \path[coordinate] (A) -- (B) coordinate[pos=.10](A)
+                                  -- (C) coordinate[pos=.10](B)
+                                  -- (D) coordinate[pos=.10](C)
+                                  -- (X) coordinate[pos=.10](D);
+              \draw[fill=\couleur!\thedensity] (A)--(B)--(C)-- (D) -- cycle;
+          }
+        \end{tikzpicture}
+      }
+      \caption{Rotated square from
+      \href{http://www.texample.net/tikz/examples/rotated-polygons/}{texample.net}.}
+    \end{figure}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{表格}
+  \begin{columns}
+    \column{0.3\textwidth}
+    \begin{table}
+      \centering
+      \begin{tabular}{|c|c|c|}
+        \hline
+        A & B & C \\
+        \hline
+        1 & 2 & 3 \\
+        4 & 5 & 6 \\
+        7 & 8 & 9 \\
+        \hline
+      \end{tabular}
+      \caption{这是一个简单的表格。}
+    \end{table}
+    \column{0.7\textwidth}
+    \begin{table}
+      \centering
+      \begin{tabular}{l|S|r}
+        \toprule % <-- Toprule here
+        \textbf{Value 1} & \textbf{Value 2} & \textbf{Value 3}\\
+        $\alpha$ & $\beta$ & $\gamma$ \\
+        \midrule % <-- Midrule here
+        1 & 1110.1 & a\\
+        2 & 10.1 & b\\
+        3 & 23.113231 & c\\
+        \bottomrule % <-- Bottomrule here
+      \end{tabular}
+      \label{tab:table1}
+      \caption{这是一个三线表，设置了更复杂的对齐规则。}
+    \end{table}
+  \end{columns}
+\end{frame}
+
+\section{动画效果}
+
+\subsection{Overlay Specifications}
+
+\begin{frame}{Overlay Specifications}
+  使用 Overlay Specifications 可以让内容逐步显示。
+  \begin{columns}
+    \column{0.5\textwidth}
+    \begin{itemize}
+      \item<1-> 第一项
+      \item<2-> 第二项 
+      \item<3-> 第三项
+    \end{itemize}
+    \only<2>{只和第二项一起显示。}
+    \column{0.5\textwidth}
+    \begin{itemize}
+      \item<3-> \alert<3>{第一项}
+      \item<4-> 第二项
+      \item<5-> 第三项
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Overlay Specifications}
+  \framesubtitle<2-3>{我也可以被 Overlay 控制}
+  许多样式也可以被 Overlay 控制。
+  \begin{itemize}
+    \item<1-> \textbf<1>{First item.}
+    \item<2-> \textit<2>{Second item.}
+    \item<3-> \textcolor<3>{blue}{Third item.}
+    \item<4-> Fourth item.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{表格上的动画}
+  \begin{table}
+    \begin{tabular}{l | c | c | c | c }
+    Competitor Name & Swim & Cycle & Run & Total \\
+    \hline \hline
+    John T & 13:04 & 24:15 & 18:34 & 55:53 \onslide<2-> \\ 
+    Norman P & 8:00 & 22:45 & 23:02 & 53:47 \onslide<3->\\
+    Alex K & 14:00 & 28:00 & n/a & n/a \onslide<4->\\
+    Sarah H & 9:22 & 21:10 & 24:03 & 54:35 
+    \end{tabular}
+    \caption{在表格上使用 onslide 创建动画。}
+  \end{table}
+\end{frame}
+
+\subsection{Pause 命令}
+
+\begin{frame}{Pause 命令}
+  Pause 命令能够让内容逐步显示。
+  \begin{itemize}
+    \item First item. 
+    \item Second item. \pause 在此停顿！\pause
+    \item Third item.
+  \end{itemize}
+\end{frame}
+
+\setbeamercovered{transparent}
+\begin{frame}{只是透明}
+  调用 \texttt{setbeamercovered} 命令可以让未显示的内容透明，而不是隐藏。
+  \begin{itemize}
+    \item<1-> First item.
+    \item<2-> Second item.
+    \item<3-> Third item.
+    \item 未显示的内容是透明的。
+  \end{itemize}
+\end{frame}
+
+\subsection{更自动的 Overlay Specifications}
+
+\begin{frame}
+  \frametitle{自动让 Item 逐步显示}
+  \begin{itemize}[<+->]
+    \item First item.
+    \item Second item.
+    \item Third item.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{自动让 Item 逐步显示}
+  \framesubtitle{并且高亮显示}
+  \begin{itemize}[<+-| alert@+>]
+    \item First item.
+    \item Second item.
+    \item Third item.
+  \end{itemize}
+\end{frame}
+
+\section{引用}
+
+\begin{frame}{引用参考文献}
+  真的有人会在幻灯片上引用参考文献吗？如果非要引用 \cite{Knuth92}，使用带作者和年份的格式也许会更好。
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{参考文献}
+  % 删掉下一行，则只保留有 \cite 的参考文献
+  \nocite{*}
+  \bibliography{demo}
+  \bibliographystyle{apalike}
+\end{frame}
+
+\end{document}
