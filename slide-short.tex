@@ -1,0 +1,45 @@
+\documentclass[aspectratio=169]{ctexbeamer}
+
+\mode<presentation>
+{
+    \usecolortheme{villa}
+    \useinnertheme{rectangles}
+    % 使用 nosection 选项设置不显示 section 信息
+    \useoutertheme[nosection]{villa}
+}
+
+\title[简短报告]{不使用 Section 样式的简短报告标题}
+% \subtitle{可以不要副标题}
+\author[Duanyll]{报告人：Duanyll}
+\date[\today]{\today}
+
+\begin{document}
+
+\begin{frame}[plain,noframenumbering]
+  \titlepage
+\end{frame}
+
+\begin{frame}{简短报告}
+  这是一个简短报告的样式。
+  \begin{itemize}
+    \item 没有目录。
+    \item 左上角数字是页码。
+    \item 圆圈里的文本是当前页的标题。
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{可以设置副标题}{这是一个副标题}
+  这是一个带有副标题的页面。请注意标题的长度不能超过页面宽度，否则会导致错位。
+\end{frame}
+
+\begin{frame}
+    \frametitle{另一个页面}
+    这是另一个页面。
+    \begin{enumerate}
+        \item 第一项
+        \item 第二项
+        \item 第三项
+    \end{enumerate}
+\end{frame}
+
+\end{document}
