@@ -1,0 +1,33 @@
+% ============================================================================
+% Shared preamble — villa-theme deck (make-slides).
+% Both slides.tex (the merged deck) and tools/buildframe.sh / buildtikz.sh
+% (the per-frame / per-figure build harnesses) \input THIS FILE, so that
+% "compiles & looks good in the harness" implies "compiles & looks good in the
+% final deck". Never load packages anywhere else.
+% Compile engine: XeLaTeX (ctexbeamer requires it).
+% ============================================================================
+
+\usepackage{listings}        % code_listing 版式
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{bm}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{tikz}
+\usetikzlibrary{
+  positioning, arrows.meta, calc, fit, backgrounds,
+  shapes.geometric, shapes.misc,
+  decorations.pathmorphing, decorations.pathreplacing
+}
+
+\usepackage{graphicx}
+\usepackage{booktabs}        % table_centric：\toprule/\midrule/\bottomrule
+\usepackage{subcaption}      % image_grid：\begin{subfigure}
+\usepackage{siunitx}
+\sisetup{round-mode=places, round-precision=2}
+
+% 口播过渡旁白（outline 里的 `> 旁白：…`）：自成一行的等宽小字，全场统一样式。
+% 排版 agent 把 `> 旁白：X` 翻成 \narration{X}。
+\newcommand{\narration}[1]{\par\smallskip{\small\ttfamily #1}\par}

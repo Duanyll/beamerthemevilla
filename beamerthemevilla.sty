@@ -1,5 +1,14 @@
 \mode<presentation>
 
+% 选项处理：
+%   pku       —— 使用纯北京大学 logo（无实验室部分），在 outer theme 之后覆盖（同 uestc 变体手法）
+%   nosection —— 不显示 section 信息，转发给 outer theme（短报告模版用）
+\newif\ifvilla@pku        \villa@pkufalse
+\newif\ifvilla@nosection  \villa@nosectionfalse
+\DeclareOptionBeamer{pku}{\villa@pkutrue}
+\DeclareOptionBeamer{nosection}{\villa@nosectiontrue}
+\ProcessOptionsBeamer
+
 \definecolor{villatheme}{RGB}{165,48,15}
 \definecolor{villaaccent}{RGB}{225,0,0}
 
@@ -9,6 +18,16 @@
 \useinnertheme{rectangles}
 \setbeamertemplate{caption}[numbered]
 
-\useoutertheme{villa}
+\ifvilla@nosection
+  \useoutertheme[nosection]{villa}
+\else
+  \useoutertheme{villa}
+\fi
+
+% pku 选项：在 outer theme 之后覆盖为纯北大 logo
+\ifvilla@pku
+  \setbeamertemplate{footline logo}{\includegraphics[height=15pt]{imgs/pkudimmed.pdf}}
+  \setbeamertemplate{title logo}{\includegraphics[height=25pt]{imgs/pku.pdf}}
+\fi
 
 \mode<all>

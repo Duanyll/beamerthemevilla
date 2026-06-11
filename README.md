@@ -80,6 +80,16 @@ To hide section information in frame titles:
 \usetheme[nosection]{villa}
 ```
 
+#### Plain PKU Logo (no lab branding)
+To use the plain Peking University logo without the Villa lab wordmark (on both the
+title slide and the footer):
+
+```latex
+\usetheme[pku]{villa}
+```
+
+Options can be combined, e.g. `\usetheme[pku,nosection]{villa}`.
+
 ### Customization
 
 #### Colors
@@ -94,6 +104,8 @@ The theme defines two main colors that can be customized:
 Replace the logo files in the `imgs/` directory:
 - `pkuvilla.pdf` - Main logo for title slide
 - `pkuvilladimmed.pdf` - Dimmed logo for footer
+- `pku.pdf` - Plain PKU logo (no lab), for title slide with the `pku` option
+- `pkudimmed.pdf` - Plain PKU dimmed logo, for footer with the `pku` option
 - `uestc.pdf` - UESTC main logo
 - `uestcdimmed.pdf` - UESTC dimmed logo
 
