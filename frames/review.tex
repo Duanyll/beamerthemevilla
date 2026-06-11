@@ -1,0 +1,18 @@
+\begin{frame}{亲眼验收}{compile → render → 看 → 改}
+  \begin{columns}[T,onlytextwidth]
+    \column{0.56\textwidth}
+      agent \textbf{有视觉}——这是达到手工级的关键。每页都走一个小循环：
+      \begin{itemize}
+        \item 写 \texttt{frames/<id>.tex}，编译，渲染成 PNG
+        \item \textbf{\texttt{Read} 打开图亲眼看}：溢出？图太大？像手排吗？
+        \item 不满意就改，直到干净
+      \end{itemize}
+      \medskip
+      每个 agent 用\alert{独立 build 目录}、靠 \texttt{TEXINPUTS} 找资源，互不冲突；
+      又共享同一份 \texttt{preamble.tex}，做到 \alert{“在 harness 里好看，就在成品里好看”}。
+    \column{0.44\textwidth}
+      \begin{figure}\centering
+        \resizebox{\textwidth}{!}{\input{imgs/intro-loop.tikz.tex}}
+      \end{figure}
+  \end{columns}
+\end{frame}

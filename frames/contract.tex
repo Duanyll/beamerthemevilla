@@ -1,0 +1,23 @@
+\begin{frame}{契约}{两个文件锁住主线}
+  两个文件当\textbf{全程脊柱}，后面每个阶段都读它，不靠 agent 猜：
+
+  \medskip
+  \begin{columns}[T,onlytextwidth]
+    \column{0.5\textwidth}
+      \begin{block}{\texttt{narrative.md} · 主线}
+        一句话主旨 / 重组逻辑（$\neq$ 论文目录）/ 关键洞见。
+
+        \medskip
+        \alert{防止 AI 退回照搬原文的流水账。}
+      \end{block}
+    \column{0.5\textwidth}
+      \begin{block}{\texttt{outline.yaml} · 每页内容}
+        逐帧的标题、正文、\textbf{最终公式}、版式、图规格。
+
+        \medskip
+        排版阶段只填、不猜。
+      \end{block}
+  \end{columns}
+
+  \narration{旁白：主线写对了，扇出再多 agent 也不跑偏。}
+\end{frame}

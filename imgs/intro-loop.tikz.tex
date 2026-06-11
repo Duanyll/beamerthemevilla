@@ -1,0 +1,31 @@
+\begin{tikzpicture}[
+    >=Latex,
+    node distance=0pt,
+    every node/.style={transform shape},
+    stage/.style={
+      draw=villatheme, line width=0.9pt, fill=villatheme!6,
+      rounded corners=3pt, align=center, inner sep=6pt,
+      minimum width=2.7cm, minimum height=1.3cm, font=\small
+    },
+    flow/.style={->, line width=1pt, draw=villatheme},
+    back/.style={->, line width=1pt, draw=villaaccent, dashed}
+  ]
+
+  % 四个环节，顺时针：上→右→下→左
+  \node[stage] (write)   at ( 0   , 2.3) {\textbf{写 .tex}\\[3pt]{\scriptsize 这一页的内容}};
+  \node[stage] (compile) at ( 4.6 , 0  ) {\textbf{编译}\\[3pt]{\scriptsize xelatex}};
+  \node[stage] (render)  at ( 0   ,-2.3) {\textbf{渲染 PNG}\\[3pt]{\scriptsize pdftoppm}};
+  \node[stage] (look)    at (-4.6 , 0  ) {\textbf{亲眼看}\\[3pt]{\scriptsize Read 渲染结果}};
+
+  % 顺时针主回路（弧线相连）
+  \draw[flow] (write)   to[bend left=18] (compile);
+  \draw[flow] (compile) to[bend left=18] (render);
+  \draw[flow] (render)  to[bend left=18] (look);
+  \draw[flow] (look)    to[bend left=18] (write);
+
+  % 不满意 → 改：从「看」回到「写」的闭环回箭头
+  \draw[back] (look) to[bend right=42] (write)
+    node[midway, font=\scriptsize, text=villaaccent,
+         fill=white, inner sep=2pt] {不满意 → 改};
+
+\end{tikzpicture}

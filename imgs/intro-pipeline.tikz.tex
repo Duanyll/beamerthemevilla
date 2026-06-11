@@ -1,0 +1,56 @@
+\begin{tikzpicture}[
+    >=Latex,
+    font=\small,
+    box/.style={
+        rounded corners=2pt, draw=villatheme, line width=0.8pt,
+        fill=villatheme!6, align=center, inner sep=5pt,
+        minimum height=1.1cm, text width=2.0cm},
+    human/.style={box, fill=villatheme!16, draw=villatheme, line width=1.1pt},
+    fan/.style={
+        rounded corners=2pt, draw=villatheme, line width=0.7pt,
+        fill=white, align=center, inner sep=3pt,
+        minimum height=0.62cm, text width=1.85cm, font=\scriptsize},
+    flow/.style={->, draw=villatheme, line width=1pt},
+    sub/.style={->, draw=villatheme!55, line width=0.6pt}
+]
+
+% ===== Stage boxes (left to right) =====
+\node[human] (s1) at (0,0) {\textbf{① 大纲设计}\\[2pt]{\scriptsize 拆分章节 · 拟提纲}};
+\node[box]   (s15) at (2.9,0) {\textbf{1.5 公式校对}\\[2pt]{\scriptsize 符号核对 · 修订}};
+\node[box]   (s2) at (5.8,0) {\textbf{② 找图}};
+\node[box]   (s3) at (8.7,0) {\textbf{③ 逐页排版}};
+\node[box]   (s4) at (11.6,0) {\textbf{④ 合并终检}\\[2pt]{\scriptsize 拼合 · 校验溢出}};
+
+% ===== Main flow arrows =====
+\draw[flow] (s1) -- (s15);
+\draw[flow] (s15) -- (s2);
+\draw[flow] (s2) -- (s3);
+\draw[flow] (s3) -- (s4);
+
+% ===== Stage 2: concurrent fan-out (find figures) =====
+\node[fan] (s2a) at (5.8,1.7) {图 A};
+\node[fan] (s2b) at (5.8,2.5) {图 B};
+\node[fan] (s2c) at (5.8,3.3) {图 C \dots};
+\draw[sub] (s2.north) -- (s2a.south);
+\draw[sub] (s2a) -- (s2b);
+\draw[sub] (s2b) -- (s2c);
+
+% ===== Stage 3: concurrent fan-out (typeset pages) =====
+\node[fan] (s3a) at (8.7,1.7) {页 1};
+\node[fan] (s3b) at (8.7,2.5) {页 2};
+\node[fan] (s3c) at (8.7,3.3) {页 3 \dots};
+\draw[sub] (s3.north) -- (s3a.south);
+\draw[sub] (s3a) -- (s3b);
+\draw[sub] (s3b) -- (s3c);
+
+% ===== Legend: 人/交互 vs 并发扇出 =====
+\node[human, minimum height=0.45cm, text width=0.45cm, inner sep=2pt] (l1)
+    at (1.0,-1.85) {};
+\node[anchor=west, font=\scriptsize] at (l1.east) {阶段 1：人 / 交互主导};
+
+\node[fan, minimum height=0.45cm, text width=0.45cm, inner sep=2pt] (l2)
+    at (6.7,-1.85) {};
+\node[anchor=west, font=\scriptsize, text=villaaccent] at (l2.east)
+    {阶段 2、3：并发扇出（多 agent 并行）};
+
+\end{tikzpicture}
