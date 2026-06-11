@@ -38,5 +38,6 @@
 ## villa 主题坑
 
 - full 模版左上圈显示 **section 名**；section 名 >8 字会撑破圈/挤标题栏（实测 ≤9 字勉强、4 字最佳）。帧标题在圈右侧，只需不超一行页宽。
+- **进圈的标题（short 模版的帧标题、full 模版的 section 名）别用 ①②③ 等带圈数字/生僻符号**：圈用的标题字体可能没有这些字形，会被**静默丢弃**（实测 `产出①` 圈里只剩"产出"，两页撞名）。要编号就用中文「一/二」或「1/2」。
 - 正文里**不要 `\usepackage`**——所有宏包只在 `preamble.tex` 加载（`\narration`、booktabs、subcaption、siunitx、tikz/pgfplots、amsmath/mathtools/bm 都已就绪）。
 - TikZ 图里引用的 `villatheme`/`villaaccent` 颜色由主题 sty 提供，`\input` 进来即可用。
