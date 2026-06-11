@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 # Build & render ONE frame in an isolated dir, for the typesetting loop.
 #
-#   bash tools/buildframe.sh <frame-id> [section-name]
+#   bash tools/buildframe.sh <frame-id> [section-name] [full|short]
 #
-# Reads frames/<frame-id>.tex, wraps it with the shared preamble + villa theme
-# (full template, so the section header renders realistically), compiles with
-# XeLaTeX, and rasterises every page to PNG at 150dpi.
+# Reads frames/<frame-id>.tex, wraps it with the shared preamble + villa theme,
+# compiles with XeLaTeX, and rasterises every page to PNG at 150dpi.
+#   full  (default): \usetheme{villa} + a \section, so the left circle shows the
+#                    section name — matches a long deck.
+#   short          : \usetheme[nosection]{villa}, no \section, so the circle shows
+#                    the frame title and the badge the page number — matches a
+#                    short deck. Pass it as the 3rd arg for short-template frames.
 #
 # Output on success:  PASS <id> pages=N  +  the PNG paths under .build/frames/<id>/
 # Output on failure:  FAIL <id>  +  last 40 log lines  (exit 1)
@@ -14,23 +18,32 @@
 # (preamble.tex, frames/, imgs/, *.sty) are found via TEXINPUTS, never copied,
 # so many agents can run this concurrently without conflict.
 set -euo pipefail
-ID="${1:?usage: buildframe.sh <frame-id> [section]}"
+ID="${1:?usage: buildframe.sh <frame-id> [section] [full|short]}"
 SEC="${2:-占位章节}"
+TPL="${3:-full}"
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 BD="$REPO/.build/frames/$ID"
 rm -rf "$BD"; mkdir -p "$BD"
 
+if [ "$TPL" = "short" ]; then
+  THEME='\usetheme[nosection]{villa}'
+  SECTION=''
+else
+  THEME='\usetheme{villa}'
+  SECTION="\\section{$SEC}"
+fi
+
 cat > "$BD/harness.tex" <<EOF
 \\documentclass[aspectratio=169]{ctexbeamer}
 \\input{preamble.tex}
-\\usetheme{villa}
+$THEME
 % Placeholder title/author — this harness only renders one frame to eyeball its
 % layout, so the chrome text is irrelevant. The real deck's title comes from outline.yaml.
 \\title[示例报告]{示例报告}
 \\author[段宇乐]{段宇乐}
 \\date{\\today}
 \\begin{document}
-\\section{$SEC}
+$SECTION
 \\input{frames/$ID.tex}
 \\end{document}
 EOF
