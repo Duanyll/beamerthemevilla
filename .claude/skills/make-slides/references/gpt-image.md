@@ -48,8 +48,8 @@
 
 ## 调用方式（API schema）
 
-本仓库用 `tools/gen-image.sh <prompt-file> <out.png> [model] [size] [quality]`——读 `.env` 的
-`OPENAI_BASE`/`OPENAI_KEY`（OpenAI 兼容 relay），打 `/images/generations`，把返回的 `b64_json` 解码存盘。
+本仓库用 `tools/gen-image.py <prompt-file> <out.png> [--model] [--size] [--quality]`——读 `.env` 的
+`OPENAI_BASE`/`OPENAI_KEY`（OpenAI 兼容 relay），打 `/images/generations`，把返回的 `b64_json` 解码存盘。纯 `python3`（stdlib urllib），无额外依赖。
 （官方 codex skill 的 `image_gen.py` 是另一条路：走 `OPENAI_API_KEY` + openai SDK，schema 同下。）
 
 **端点**

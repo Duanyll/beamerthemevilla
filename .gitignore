@@ -310,3 +310,7 @@ TSWLatexianTemp*
 .env
 .build/
 *.scratch/
+
+## Python (tools/)
+__pycache__/
+*.pyc

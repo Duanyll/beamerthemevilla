@@ -52,10 +52,10 @@
 
 **调用（OpenAI 兼容 relay，读 `.env` 的 `OPENAI_BASE`/`OPENAI_KEY`）：**
 ```bash
-bash tools/gen-image.sh <prompt-file> <out.png> [model] [size] [quality]
-#   model:  gpt-image-2(默认) | gpt-image-1.5(要原生透明时) | gpt-image-1
-#   size:   1536x1024(默认,横) | 1024x1024 | 1024x1536 | 也可任意 WxH(见 gpt-image.md 约束)
-#   quality: high(默认) | medium | low(测试省钱)  —— 密集文字/图表/示意图用 medium~high
+python3 tools/gen-image.py <prompt-file> <out.png> [--model M] [--size S] [--quality Q]
+#   --model    gpt-image-2(默认) | gpt-image-1.5(要原生透明时) | gpt-image-1
+#   --size     1536x1024(默认,横) | 1024x1024 | 1024x1536 | 也可任意 WxH(见 gpt-image.md 约束)
+#   --quality  high(默认) | medium | low(测试省钱)  —— 密集文字/图表/示意图用 medium~high
 ```
 - 端点 `POST {OPENAI_BASE}/images/generations`（生成）；改/合成已有图用 `/images/edits`。返回 `b64_json`（脚本已解码存 PNG）。高质量 1536x1024 约几千 image-token（一张约几美分）。**完整 API schema 见 [`gpt-image.md`](gpt-image.md)**。
 - **prompt 模版**（防它自己加字）：「请你帮我制作一幅用于 PPT 的插图，白色背景，现代风格，展示下面给定的内容，只包含我提供给你的文字：」+ Markdown 要点提纲。把 prompt 存到 `<out>.prompt.txt` 留档。

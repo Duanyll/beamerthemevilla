@@ -111,17 +111,45 @@ Replace the logo files in the `imgs/` directory:
 
 ## Examples
 
-The repository includes several example presentations:
+The repository includes example presentations:
 
-- `slide.tex` - Basic example
-- `slide-short.tex` - Short presentation example  
-- `slide-full.tex` - Comprehensive example with advanced features
+- `slides.tex` / `slides.pdf` — a 9-page short-template deck introducing the
+  `make-slides` workflow (below). It was produced *by* that workflow, so it
+  doubles as a showcase of what the theme + skill make together.
+- `slide-short.tex` — minimal short-template (`[nosection]`) example.
+- `slide-full.tex` — comprehensive example: sections, a table of contents, and
+  the full layout catalogue.
 
-To compile the examples:
+`ctexbeamer` requires **XeLaTeX**, so compile with:
 
 ```bash
-latexmk -pdf slide-full.tex
+latexmk -xelatex slides.tex
 ```
+
+## make-slides — turn a paper into a deck with Claude Code
+
+This repo ships a [Claude Code](https://claude.com/claude-code) **skill** that
+turns a paper / notes / discussion into a complete, hand-typeset-quality villa
+deck. It lives in [`.claude/skills/make-slides/`](.claude/skills/make-slides/SKILL.md);
+copy this repo to start a new talk and the skill, its reference playbooks, and the
+build tools travel with it.
+
+The workflow is **hybrid** — interactive where it needs you, parallel where it doesn't:
+
+1. **Outline** (interactive) — you and Claude settle a `narrative.md` (the spine)
+   and fill in `outline.yaml` (per-frame content, final equations, figure specs).
+2. **Equation proofread** — compile-check every formula, unify notation.
+3. **Figures** (parallel fan-out) — one agent per figure (TikZ / matplotlib-seaborn
+   plot / GPT-Image / paper crop / web), each verifying its own render.
+4. **Typeset** (parallel fan-out) — one agent per frame: compile → render → look →
+   iterate until clean and not overflowing.
+5. **Merge & review** — assemble the deck, full-compile, adversarial page review.
+
+The shared `preamble.tex` and the `tools/` helpers (`gen-slides.py`, `buildframe.sh`,
+`buildtikz.sh`, `gen-image.py`, `plot-example.py`) make "compiles & looks good in the
+per-frame harness" imply the same in the final deck.
+
+Toolchain (macOS): `brew install --cask mactex && brew install poppler uv jq`.
 
 ## Requirements
 
@@ -139,14 +167,13 @@ beamerthemevilla/
 ├── beamerthemevilla.sty          # Main theme file
 ├── beamerouterthemevilla.sty     # Outer theme (headers/footers)
 ├── beamerthemeuestc.sty          # UESTC variant
-├── imgs/                         # Logo files
-│   ├── pkuvilla.pdf
-│   ├── pkuvilladimmed.pdf
-│   ├── uestc.pdf
-│   └── uestcdimmed.pdf
-├── slide.tex                     # Basic example
+├── imgs/                         # Logo files (pkuvilla, pku, uestc, …)
 ├── slide-short.tex               # Short example
 ├── slide-full.tex                # Full-featured example
+├── slides.tex / slides.pdf       # make-slides showcase deck
+├── preamble.tex                  # Shared packages/macros (deck + harnesses)
+├── tools/                        # make-slides build tools
+├── .claude/skills/make-slides/   # the make-slides Claude Code skill
 ├── demo.bib                      # Bibliography for examples
 └── LICENSE                       # MIT License
 ```

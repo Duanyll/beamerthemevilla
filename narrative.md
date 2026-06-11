@@ -39,7 +39,7 @@
 
 ## 刻意弱化 / 不讲
 
-- 不逐一讲每个工具脚本的参数（`buildframe.sh`/`gen-image.sh` 等）——点到为止、给指针。
+- 不逐一讲每个工具脚本的参数（`buildframe.sh`/`gen-image.py` 等）——点到为止、给指针。
 - 不展开 villa 主题实现、不展开 GPT-Image API、不展开公式（本场 `math_density=0`）。
 - 找图的 6 种来源不逐一铺开，只在 showcase 里"让产出说话"（tikz / plot / gpt-image / 截图）。
 

@@ -52,7 +52,7 @@ description: >
 - **`preamble.tex`** — 全场唯一的宏包/tikz 库/宏来源。`slides.tex` 和所有逐页/逐图 harness 都 `\input` 它，**保证“在 harness 里好看 == 在成品里好看”**。新增宏包只改这里。
 - **`tools/buildframe.sh <id> "<section>"`** — 在隔离目录里用真实 preamble+villa(full) 编译 `frames/<id>.tex` 并渲染 PNG（150dpi），打印 PASS/FAIL + Overfull 警告。供排版 agent 的“编译→自看”循环。
 - **`tools/buildtikz.sh <path.tikz.tex>`** — 把一张 tikz 图放到真实幻灯片上编译+渲染，供找图 agent 验收。
-- **`tools/gen-image.sh <prompt> <out.png> [model] [size] [quality]`** — 调 GPT-Image-2/1 生成插图（OpenAI 兼容 relay，读 `.env`）。
+- **`tools/gen-image.py <prompt> <out.png> [--model] [--size] [--quality]`** — 调 GPT-Image-2/1 生成插图（OpenAI 兼容 relay，读 `.env`；纯 stdlib，`python3` 直接跑）。
 - **`tools/gen-slides.py`** — 读 `outline.yaml` 拼出 `slides.tex`（section/subsection/帧顺序）。`uv run --with pyyaml python tools/gen-slides.py`。
 
 **隔离原则**：每个并发 agent 用独立 build 目录（`.build/frames/<id>/`、`.build/tikz/<name>/`），靠 `TEXINPUTS=<repo>` 找仓库资源，不复制、不冲突。善用 git 在每个阶段后 commit 做备份。
@@ -86,7 +86,7 @@ description: >
 - **LaTeX 引擎只用 `xelatex`**（ctexbeamer 必需），全量编译跑两遍（解析目录/引用）。`latexmk -xelatex` 会自动跑够遍数。
 - **中文字体零配置**：ctex 在 macOS 上自动挑系统 CJK 字体（苹方/宋体），**无需手动装字体或设 `fontset`**。换非 mac 系统才需显式配字体。
 - **python 一律 `uv run --with <pkg> python …` 或 `uvx`，绝不全局 `pip install`**；常用包：`pyyaml`（拼装）、`pandas matplotlib seaborn`（画图）、`pillow`（拼图自看）、`trackio`/`gradio_client`（拉实验数据）。全局 CLI 工具走 `brew`。
-- **GPT-Image 找图要联网 + key**：`tools/gen-image.sh` 读仓库根 `.env` 的 `OPENAI_BASE`/`OPENAI_KEY`（OpenAI 兼容 relay）。`.env` 必须在 `.gitignore` 里，别提交 key。该脚本只用系统 `python3` + urllib，无额外依赖。详见 [`references/gpt-image.md`](references/gpt-image.md)。
+- **GPT-Image 找图要联网 + key**：`tools/gen-image.py` 读仓库根 `.env` 的 `OPENAI_BASE`/`OPENAI_KEY`（OpenAI 兼容 relay）。`.env` 必须在 `.gitignore` 里，别提交 key。该脚本只用系统 `python3` + urllib，无额外依赖。详见 [`references/gpt-image.md`](references/gpt-image.md)。
 
 ### 主题选项（建在 villa 之上）
 
